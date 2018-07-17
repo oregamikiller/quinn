@@ -25,7 +25,7 @@ pub struct ConnectionState<T> {
     secret: Secret,
     prev_secret: Option<Secret>,
     pub streams: Streams,
-    queue: VecDeque<Vec<u8>>,
+    pub queue: VecDeque<Vec<u8>>,
     control: VecDeque<Frame>,
     tls: T,
     pmtu: usize,

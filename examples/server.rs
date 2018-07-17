@@ -7,25 +7,19 @@ use rustls::internal::pemfile;
 use std::{fs::File, io::BufReader};
 
 fn main() {
-    let mut certs = {
-        let f = File::open("server.crt").expect("cannot open 'server.crt'");
+    let certs = {
+        let f = File::open("certs/server.chain").expect("cannot open 'certs/server.chain'");
         let mut reader = BufReader::new(f);
         pemfile::certs(&mut reader).expect("cannot read certificates")
     };
 
-    certs.extend_from_slice(&{
-        let f = File::open("intermediate.pem").expect("cannot open 'intermediate.pem'");
-        let mut reader = BufReader::new(f);
-        pemfile::certs(&mut reader).expect("cannot read certificates")
-    });
-
-    let key = {
-        let f = File::open("server.key").expect("cannot open 'server.key'");
+    let keys = {
+        let f = File::open("certs/server.rsa").expect("cannot open 'certs/server.rsa'");
         let mut reader = BufReader::new(f);
         pemfile::rsa_private_keys(&mut reader).expect("cannot read private keys")
     };
 
-    let tls_config = quinn::tls::build_server_config(certs, key[0].clone()).unwrap();
+    let tls_config = quinn::tls::build_server_config(certs, keys[0].clone()).unwrap();
     env_logger::init();
-    tokio::run(quinn::Server::new("0.0.0.0", 4433, tls_config).unwrap());
+    tokio::run(quinn::Server::new("localhost", 4433, tls_config).unwrap());
 }

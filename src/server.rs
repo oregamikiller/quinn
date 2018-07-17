@@ -44,6 +44,7 @@ impl Server {
 
         let (dst_cid, ptype) = {
             let partial = PartialDecode::new(packet)?;
+            println!("incoming packet: {:?} {:?}", addr, String::from_utf8_lossy(partial.buf));
             debug!("incoming packet: {:?} {:?}", addr, partial.header);
             (partial.dst_cid(), partial.header.ptype())
         };

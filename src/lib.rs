@@ -16,18 +16,18 @@ extern crate webpki_roots;
 pub use client::Client;
 pub use server::Server;
 
-mod client;
+pub mod client;
 mod codec;
 mod conn_state;
 mod crypto;
-mod frame;
+pub mod frame;
 pub mod http;
 mod packet;
 mod parameters;
 mod server;
-mod streams;
+pub mod streams;
 pub mod tls;
-mod types;
+pub mod types;
 
 #[derive(Debug, Fail)]
 pub enum QuicError {

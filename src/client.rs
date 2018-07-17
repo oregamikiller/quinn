@@ -11,7 +11,7 @@ use std::net::{SocketAddr, ToSocketAddrs};
 use tokio::net::UdpSocket;
 
 pub struct Client {
-    conn_state: ConnectionState<tls::ClientSession>,
+    pub conn_state: ConnectionState<tls::ClientSession>,
     socket: UdpSocket,
     buf: Vec<u8>,
 }
@@ -97,7 +97,7 @@ impl Future for Client {
 
 #[must_use = "futures do nothing unless polled"]
 pub struct ConnectFuture {
-    client: Option<Client>,
+    pub client: Option<Client>,
 }
 
 impl ConnectFuture {
